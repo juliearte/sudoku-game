@@ -1,9 +1,11 @@
 package com.example.sudokugame.controller;
 
+import com.example.sudokugame.view.GameStage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
+import java.io.IOException;
 
 
 public class HomeController {
@@ -16,8 +18,9 @@ public class HomeController {
     private Button buttonPLay;
 
     @FXML
-    void handlePlay(ActionEvent event) {
+    void handlePlay(ActionEvent event) throws IOException {
         System.out.println("Play");
+        new GameStage();
 
     }
 }
