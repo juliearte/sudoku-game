@@ -11,9 +11,10 @@ public class HomeStage extends Stage {
     public HomeStage() throws IOException {
         FXMLLoader fmxlLoad = new FXMLLoader(getClass().getResource("/com/example/sudokugame/game-view.fxml"));
         Parent root = fmxlLoad.load();
-        Scene scene = new Scene(root, 800, 600);
-        setTitle("MiniProyecto");
+        Scene scene = new Scene(root, 600, 400);
+        setTitle("Sudoku Game");
         setScene(scene);
+        setResizable(false);
         show();
     }
 

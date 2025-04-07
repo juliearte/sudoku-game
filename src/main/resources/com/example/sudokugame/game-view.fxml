@@ -2,17 +2,41 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sudokugame.controller.HomeController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-repeat: no-repeat;" stylesheets="@../../../styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sudokugame.controller.HomeController">
    <children>
-      <VBox alignment="CENTER" layoutX="244.0" layoutY="111.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="50.0">
+      <VBox alignment="CENTER" layoutX="50.0" layoutY="30.0" prefHeight="338.0" prefWidth="400.0" spacing="20.0" style="-fx-background-color: #e3aaff; -fx-border-color: #9300B7; -fx-border-radius: 10; -fx-padding: 20;" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="30.0">
          <children>
-            <Label text="Sudoku" />
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-            <Button fx:id="buttonPLay" mnemonicParsing="false" onAction="#handlePlay" text="Jugar" />
+            <Label alignment="CENTER" lineSpacing="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="33.0" prefWidth="136.0" style="-fx-font-size: 20; -fx-text-fill: #9300B7; -fx-font-weight: bold; -fx-font-family: Poppins; -fx-background-color: white; -fx-background-radius: 16; -fx-padding: 0;" text="• sudoku •" />
+            <GridPane alignment="CENTER" hgap="2.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" style="-fx-alignment: center; -fx-font-size: 24; -fx-font-weight: bold; -fx-text-fill: #6a0dad;" vgap="2.0">
+              <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="20.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="66.0" prefWidth="100.0" style="-fx-alignment: center; -fx-background-color: white; -fx-background-radius: 5; -fx-text-fill: #9300B7;" text="S" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="130.0" prefWidth="66.0" style="-fx-background-color: white; -fx-background-radius: 5; -fx-text-fill: #9300B7;" text="U" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="1" />
+                  <Label alignment="CENTER" prefHeight="116.0" prefWidth="66.0" style="-fx-background-color: white; -fx-background-radius: 5; -fx-text-fill: #9300B7;" text="D" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label alignment="CENTER" prefHeight="110.0" prefWidth="66.0" style="-fx-background-color: white; -fx-background-radius: 5; -fx-text-fill: #9300B7;" text="O" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <Label alignment="CENTER" prefHeight="112.0" prefWidth="66.0" style="-fx-background-color: white; -fx-background-radius: 5; -fx-text-fill: #9300B7;" text="K" textOverrun="CENTER_ELLIPSIS" GridPane.rowIndex="2" />
+                  <Label alignment="CENTER" prefHeight="131.0" prefWidth="66.0" style="-fx-background-color: white; -fx-background-radius: 5; -fx-text-fill: #9300B7;" text="U" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Label prefHeight="107.0" prefWidth="66.0" style="-fx-background-color: #FFCFD7; -fx-background-radius: 5;" GridPane.columnIndex="2" />
+                  <Label prefHeight="122.0" prefWidth="66.0" style="-fx-background-color: #FFCFD7; -fx-background-radius: 5;" GridPane.rowIndex="1" />
+                  <Label prefHeight="177.0" prefWidth="66.0" style="-fx-background-color: #FFCFD7; -fx-background-radius: 5;" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+               </children>
+            </GridPane>
+            <Button fx:id="buttonPLay" mnemonicParsing="false" onAction="#handlePlay" prefHeight="34.0" prefWidth="130.0" style="-fx-background-color: #9300B7; -fx-text-fill: white; -fx-font-family: Poppins; -fx-font-weight: bold; -fx-font-size: 16; -fx-background-radius: 15;" text="JUGAR" />
          </children>
       </VBox>
    </children>
