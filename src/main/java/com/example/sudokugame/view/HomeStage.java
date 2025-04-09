@@ -18,4 +18,20 @@ public class HomeStage extends Stage {
         show();
     }
 
+    //patron singleton para instanciar la ventana de inicio
+    public static HomeStage getInstance() throws IOException {
+        return HomeStageHolder.INSTANCE = new HomeStage();
+    }
+
+    public static void deleteInstance() {
+        HomeStageHolder.INSTANCE.close();
+        HomeStageHolder.INSTANCE = null;
+    }
+
+    private static class HomeStageHolder {
+        private static HomeStage INSTANCE;
+    }
+
+
+
 }
