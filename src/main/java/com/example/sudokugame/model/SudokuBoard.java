@@ -117,8 +117,8 @@ public class SudokuBoard {
     }
 
     //estructura de dato
-    public ArrayList<String> getSudokuArray() {
-        return sudokuArray;
+    public List<List<Integer>> getBoard() {
+        return board ;
     }
 }
 
