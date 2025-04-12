@@ -17,12 +17,25 @@ public class GameController {
     private SudokuBoard sudokuBoard;
     private final int SIZE = 6;
 
+    /**
+     * Initializes the game controller.
+     * This method is automatically called by JavaFX when the FXML file is loaded.
+     * It creates a new Sudoku board, prints it to the console, and displays it in the UI.
+     */
     @FXML
     public void initialize() {
         sudokuBoard = new SudokuBoard();
         sudokuBoard.printBoard();
         showBoard();
     }
+
+    /**
+     * Displays the Sudoku board in the graphical user interface.
+     * This method creates a {@link TextField} for each cell of the board, configures
+     * its size, font, color, and alignment.
+     * If the cell contains a number greater than zero, the number is shown and the
+     * field is disabled to prevent editing. Otherwise, the field is left blank and enabled for user input.
+     */
 
     private void showBoard() {
         int index = 0;
@@ -49,6 +62,18 @@ public class GameController {
             }
         }
     }
+
+
+    /**
+     * Sets up the keyboard event for the given {@link TextField}.
+     * Checks if the input is a number between 1 and 6. If valid, it calls {@code SudokuBoard#isValid(int, int, int)}
+     * to check Sudoku rules. If the number is valid, it saves it to the board and disables the {@link TextField}.
+     * If invalid, it changes the border color to red.
+     *
+     * @param textField The {@link TextField} representing a cell on the board.
+     * @param row The row index of the cell.
+     * @param col The column index of the cell.
+     */
     private void HandleNumberTextField(TextField textField, int row, int col) {
         textField.setOnKeyReleased(e -> {
             String input = textField.getText();

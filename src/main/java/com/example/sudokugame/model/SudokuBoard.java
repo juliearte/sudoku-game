@@ -18,7 +18,9 @@ public class SudokuBoard {
     private final List<List<Integer>> board = new ArrayList<>();
     private final Random random = new Random();
 
-
+    /**
+     * SudokuBoard class constructor. calss {@code generateBoard()}
+     */
     public SudokuBoard() {
         generateBoard(); // Genera el tablero de Sudoku
     }
