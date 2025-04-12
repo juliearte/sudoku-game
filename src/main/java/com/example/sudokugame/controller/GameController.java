@@ -53,16 +53,18 @@ public class GameController {
         textField.setOnKeyReleased(e -> {
             String input = textField.getText();
 
-            if (!input.matches("[1-6]")) {
+            if (!input.matches("[1-6]") && input.equals("")) {
                 textField.setText("");
                 return;
             }
             int number = Integer.parseInt(input);
 
             if (sudokuBoard.isValid(row, col, number)) {
+                sudokuBoard.getBoard().get(row).set(col, number);
                 textField.setDisable(true);
+                textField.setStyle("-fx-border-color: black;");
             } else {
-                textField.setStyle("-fx-text-fill: red;");
+                textField.setStyle("-fx-border-color: red;");
             }
 
             System.out.println(sudokuBoard.isValid(row, col, number));
