@@ -112,6 +112,19 @@ public class SudokuBoard {
                 return false;
             }
         }
+
+        // Verifica bloque 2x3
+        int startRow = (row / block_rows) * block_rows;
+        int startCol = (col / block_cols) * block_cols;
+
+        for (int i = startRow; i < startRow + block_rows; i++) {
+            for (int j = startCol; j < startCol + block_cols; j++) {
+                if (board.get(i).get(j) == candidate) {
+                    return false;
+                }
+            }
+        }
+
         return true;
     }
     /**

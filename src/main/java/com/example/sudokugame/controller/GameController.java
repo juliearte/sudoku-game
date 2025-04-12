@@ -45,7 +45,27 @@ public class GameController {
 
                 sudokuPanel.add(textField, col, row);
                 index++;
+                HandleNumberTextField(textField, row, col);
             }
         }
+    }
+    private void HandleNumberTextField(TextField textField, int row, int col) {
+        textField.setOnKeyReleased(e -> {
+            String input = textField.getText();
+
+            if (!input.matches("[1-6]")) {
+                textField.setText("");
+                return;
+            }
+            int number = Integer.parseInt(input);
+
+            if (sudokuBoard.isValid(row, col, number)) {
+                textField.setDisable(true);
+            } else {
+                textField.setStyle("-fx-text-fill: red;");
+            }
+
+            System.out.println(sudokuBoard.isValid(row, col, number));
+        });
     }
 }
