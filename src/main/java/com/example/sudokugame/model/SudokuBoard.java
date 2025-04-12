@@ -23,10 +23,15 @@ public class SudokuBoard {
         generateBoard(); // Genera el tablero de Sudoku
     }
 
-    // Método generar el tablero de sudoku
+    /**
+     * Generates the initial sudoku board
+     * Filles the board with zeros and then class the {@code fiillBlocks(0)} method to start
+     * filling the blocks with two random numbers.
+     * @see #fillBlocks(int)
+     */
     private void generateBoard() {
 
-        // Llenar con ceros inicialmente
+        //fill the board with zeros
         for (int i = 0; i < SIZE; i++) {
             List<Integer> row = new ArrayList<>();
             for (int j = 0; j < SIZE; j++) {
@@ -43,7 +48,17 @@ public class SudokuBoard {
     }
 
 
-    //Metodo para llenar los bloques del tablero con dos numeros aleatorios
+    /**
+     * Recursively fills the 2x3 blocks of the board with two different random numbers in each block.
+     * For each block, the first two cells are identified and an attempt is made to
+     * place in each cell a different random number from 1 to 6. If both numbers are
+     * valid in their respective cells, they are placed on the board and the method is
+     * called recursively to fill the next block. If at any point valid numbers cannot
+     * be placed, backtraking is applied.
+     * @param blockIndex The index of the current block to be filled.
+     * @return {@code true} if all blocks were filled successfully; {@code false} if not possible
+     * @see #isValid(int, int, int)
+     */
     private boolean fillBlocks(int blockIndex) {
         if(blockIndex == TOTAL_BLOCKS) {
             return true;
@@ -54,7 +69,7 @@ public class SudokuBoard {
         int startRow = blockRow * block_rows;
         int startCol = blockCol * block_cols;
 
-        //obtner las dos primeras celdas del bloque
+        //get the first two cells of the block
         List<int[]> firstTwoCells = new ArrayList<>();
         outerloop:
         for(int i = startRow; i < startRow + block_rows; i++) {
@@ -66,14 +81,14 @@ public class SudokuBoard {
             }
         }
 
-        //generar una lista de numeros entre el 1 hasta el 6, ordenados aleatoriamente
+        //generates a list of numbers between a 1 and 6, randomly ordered
         List<Integer> numbers = new ArrayList<>();
         for(int i = 1; i <= SIZE; i++) {
             numbers.add(i);
         }
         Collections.shuffle(numbers,random);
 
-        //Intentar cololar cada par de numeros diferentes en las dos celdas
+        //try putting a different number in each cell
         for(int i = 0; i < numbers.size(); i++) {
             for (int j = i + 1; j < numbers.size(); j++) {
                 int num1 = numbers.get(i);
@@ -99,8 +114,20 @@ public class SudokuBoard {
             }
         }
 
-        return false; //no se pudo llenar el bloque
+        return false; //the block could not be filled
     }
+
+    /**
+     * Checks whether a candidate number can be placed in a specific cell of the board.
+     * A number is considered valid if it is not already present in the same row, the same column,
+     * or within the 2x3 block that contains the cell.
+     *
+     * @param row the row index of the cell
+     * @param col the column index of the cell
+     * @param candidate the number to be placed in the cell
+     * @return {@code true} if the number is valid in that position; {@code false} if it is already present
+     * in the same row, column, or block.
+     */
     public boolean isValid(int row, int col, int candidate) {
         for(int j = 0; j < SIZE; j++) {
             if(board.get(row).get(j) == candidate) {
@@ -139,10 +166,12 @@ public class SudokuBoard {
         }
     }
 
-    //estructura de dato
+    /**
+     * Returns the current Sudoku board.
+     * @return a list of lists of integers representing the Sudoku board.
+     */
     public List<List<Integer>> getBoard() {
         return board ;
     }
 }
 
-//hay que seguir ajustando el modelo, todavia falta el metodo de verificación de filas y columnas para que no se repitan los números
