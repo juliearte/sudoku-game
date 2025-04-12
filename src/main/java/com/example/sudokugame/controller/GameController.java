@@ -53,10 +53,13 @@ public class GameController {
         textField.setOnKeyReleased(e -> {
             String input = textField.getText();
 
-            if (!input.matches("[1-6]") && input.equals("")) {
+            // Validación básica: solo permitir números del 1 al 6
+            if (!input.matches("[1-6]")) {
                 textField.setText("");
+                System.out.println("Número no válido");
                 return;
             }
+
             int number = Integer.parseInt(input);
 
             if (sudokuBoard.isValid(row, col, number)) {
@@ -67,7 +70,7 @@ public class GameController {
                 textField.setStyle("-fx-border-color: red;");
             }
 
-            System.out.println(sudokuBoard.isValid(row, col, number));
+            System.out.println("¿Es válido?: " + sudokuBoard.isValid(row, col, number));
         });
     }
 }
