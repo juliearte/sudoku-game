@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
 
 import java.util.ArrayList;
 
@@ -31,6 +32,8 @@ public class GameController {
                 TextField textField = new TextField();
                 textField.setAlignment(Pos.CENTER);
                 textField.setPrefSize(60, 60);
+                textField.setFont(Font.font("basic beauty", 25 ));
+                textField.setStyle("-fx-text-fill: black;");
                 int number = sudokuBoard.getBoard().get(row).get(col);
 
                 if (number > 0) {

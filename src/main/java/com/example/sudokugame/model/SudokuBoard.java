@@ -21,7 +21,6 @@ public class SudokuBoard {
 
     public SudokuBoard() {
         generateBoard(); // Genera el tablero de Sudoku
-        fillBlocks(); // Llena el ArrayList con los números del tablero
     }
 
     // Método generar el tablero de sudoku
@@ -50,7 +49,7 @@ public class SudokuBoard {
             return true;
         }
 
-        int blockRow = blockIndex / TOTAL_BLOCK_ROWS;
+        int blockRow = blockIndex / TOTAL_BLOCK_COLS;
         int blockCol = blockIndex % TOTAL_BLOCK_COLS;
         int startRow = blockRow * block_rows;
         int startCol = blockCol * block_cols;
