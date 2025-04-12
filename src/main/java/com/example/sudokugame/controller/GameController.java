@@ -14,7 +14,6 @@ public class GameController {
     private GridPane sudokuPanel;
 
     private SudokuBoard sudokuBoard;
-    private ArrayList<String> sudokuArray;
 
     private final int SIZE = 6;
 

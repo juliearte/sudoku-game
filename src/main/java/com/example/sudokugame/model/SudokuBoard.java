@@ -115,6 +115,17 @@ public class SudokuBoard {
         }
         return true;
     }
+    /**
+     * Prints the generated board to the console.
+     */
+    public void printBoard() {
+        for (List<Integer> row : board) {
+            for (Integer num : row) {
+                System.out.print(num + " ");
+            }
+            System.out.println();
+        }
+    }
 
     //estructura de dato
     public List<List<Integer>> getBoard() {
