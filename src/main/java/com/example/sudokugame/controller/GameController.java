@@ -1,8 +1,6 @@
 package com.example.sudokugame.controller;
 
-import com.example.sudokugame.model.BoardAccess;
 import com.example.sudokugame.model.SudokuBoard;
-import com.example.sudokugame.model.SudokuBoardAdapter;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -16,7 +14,7 @@ public class GameController {
 
     @FXML
     private GridPane sudokuPanel;
-    private BoardAccess boardAccess;
+    private SudokuBoard sudokuBoard;
     private final int SIZE = 6;
 
     /**
@@ -26,8 +24,7 @@ public class GameController {
      */
     @FXML
     public void initialize() {
-        SudokuBoard sudokuBoard = new SudokuBoard();
-        this.boardAccess = new SudokuBoardAdapter(sudokuBoard);
+        sudokuBoard = new SudokuBoard();
         sudokuBoard.printBoard();
         showBoard();
     }
@@ -48,9 +45,9 @@ public class GameController {
                 TextField textField = new TextField();
                 textField.setAlignment(Pos.CENTER);
                 textField.setPrefSize(60, 60);
-                textField.setFont(Font.font("basic beauty", 25 ));
+                textField.setFont(Font.font("basic beauty", 25));
                 textField.setStyle("-fx-text-fill: black;");
-                int number = boardAccess.getValue(row,col);
+                int number = sudokuBoard.getBoard().get(row).get(col);
 
                 if (number > 0) {
                     textField.setText(String.valueOf(number));
@@ -74,8 +71,8 @@ public class GameController {
      * If invalid, it changes the border color to red.
      *
      * @param textField The {@link TextField} representing a cell on the board.
-     * @param row The row index of the cell.
-     * @param col The column index of the cell.
+     * @param row       The row index of the cell.
+     * @param col       The column index of the cell.
      */
     private void HandleNumberTextField(TextField textField, int row, int col) {
         textField.setOnKeyReleased(e -> {
@@ -90,15 +87,15 @@ public class GameController {
 
             int number = Integer.parseInt(input);
 
-            if (boardAccess.isMoveValid(row, col, number)) {
-                boardAccess.setValue(row, col, number);
+            if (sudokuBoard.isValid(row, col, number)) {
+                sudokuBoard.getBoard().get(row).set(col, number);
                 textField.setDisable(true);
                 textField.setStyle("-fx-border-color: black;");
             } else {
                 textField.setStyle("-fx-border-color: red;");
             }
 
-            System.out.println("¿Es válido?: " + boardAccess.isMoveValid(row, col, number));
+            System.out.println("¿Es válido?: " + sudokuBoard.isValid(row, col, number));
         });
     }
 }
