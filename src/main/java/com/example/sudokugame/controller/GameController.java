@@ -43,6 +43,11 @@ public class GameController {
         });
     }
 
+    /**
+     * Updates the display of the remaining hints in the interface
+     * This method gets the current number of available hints with {@code sudokuBoard.getAttemptsLeft()} and updates
+     * the label and tooltip with that amount
+     */
     private void updateHintsLeftDisplay() {
         int hintsLeft = sudokuBoard.getAttemptsLeft();
         if (hintsLeftLabel != null) {
@@ -135,14 +140,6 @@ public class GameController {
         for (int row = 0; row < SIZE; row++) {
             for (int col = 0; col < SIZE; col++) {
                 TextField textField = new TextField();
-/*<<<<<<< HEAD
-                textField.setAlignment(Pos.CENTER);
-                textField.setPrefSize(60, 60);
-                textField.setFont(Font.font("basic beauty", 25));
-                textField.setStyle("-fx-text-fill: black;");
-                int number = sudokuBoard.getBoard().get(row).get(col);
-=======
->>>>>>> origin/ajao*/
 
                 // Configuración para centrado perfecto
                 textField.setAlignment(Pos.CENTER);
