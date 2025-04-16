@@ -1,6 +1,8 @@
 package com.example.sudokugame.controller;
 
+import com.example.sudokugame.model.BoardAccess;
 import com.example.sudokugame.model.SudokuBoard;
+import com.example.sudokugame.model.SudokuBoardAdapter;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -14,7 +16,7 @@ public class GameController {
 
     @FXML
     private GridPane sudokuPanel;
-    private SudokuBoard sudokuBoard;
+    private BoardAccess boardAccess;
     private final int SIZE = 6;
 
     /**
@@ -24,7 +26,8 @@ public class GameController {
      */
     @FXML
     public void initialize() {
-        sudokuBoard = new SudokuBoard();
+        SudokuBoard sudokuBoard = new SudokuBoard();
+        this.boardAccess = new SudokuBoardAdapter(sudokuBoard);
         sudokuBoard.printBoard();
         showBoard();
     }
@@ -47,7 +50,7 @@ public class GameController {
                 textField.setPrefSize(60, 60);
                 textField.setFont(Font.font("basic beauty", 25 ));
                 textField.setStyle("-fx-text-fill: black;");
-                int number = sudokuBoard.getBoard().get(row).get(col);
+                int number = boardAccess.getValue(row,col);
 
                 if (number > 0) {
                     textField.setText(String.valueOf(number));
@@ -87,15 +90,15 @@ public class GameController {
 
             int number = Integer.parseInt(input);
 
-            if (sudokuBoard.isValid(row, col, number)) {
-                sudokuBoard.getBoard().get(row).set(col, number);
+            if (boardAccess.isMoveValid(row, col, number)) {
+                boardAccess.setValue(row, col, number);
                 textField.setDisable(true);
                 textField.setStyle("-fx-border-color: black;");
             } else {
                 textField.setStyle("-fx-border-color: red;");
             }
 
-            System.out.println("¿Es válido?: " + sudokuBoard.isValid(row, col, number));
+            System.out.println("¿Es válido?: " + boardAccess.isMoveValid(row, col, number));
         });
     }
 }
