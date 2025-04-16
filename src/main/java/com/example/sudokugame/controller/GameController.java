@@ -154,7 +154,8 @@ public class GameController {
 
                 // Fuente proporcional al tamaño de la celda (30% del ancho)
                 double fontSize = Math.min(cellWidth, cellHeight) * 0.5;
-                textField.setFont(Font.font("Arial", FontWeight.BOLD, fontSize));
+                Font poppinsBold = Font.loadFont(getClass().getResourceAsStream("/fonts/Poppins-Bold.ttf"), fontSize);
+                textField.setFont(poppinsBold);
 
                 // Estilo sin bordes visibles para que se integre con el GridPane
                 String baseStyle = "-fx-background-color: transparent; " +
@@ -225,14 +226,73 @@ public class GameController {
 
             int number = Integer.parseInt(newValue);
 
-            // Actualizar el modelo con el nuevo número
-            sudokuBoard.getBoard().get(row).set(col, number);
+            Font poppinsBold = Font.loadFont(getClass().getResourceAsStream("/fonts/Poppins-Bold.ttf"), 20);
+
+            boolean isValid = sudokuBoard.isValid(row, col, number);
+
+            // Actualizar de acuerdo a la validación
+
+            String baseStyle = "-fx-background-color: transparent; " +
+                    "-fx-text-fill: #9300B7; " +
+                    "-fx-padding: 0; " +
+                    "-fx-background-insets: 0; " +
+                    "-fx-alignment: center;";
+
+            if (isValid) {
+                textField.setFont(poppinsBold);
+                textField.setStyle(baseStyle + "-fx-font-weight: bold;");
+                sudokuBoard.getBoard().get(row).set(col, number);
+            } else {
+                textField.setFont(poppinsBold);
+                textField.setStyle(baseStyle + "-fx-background-color: rgba(255,0,0,0.3); -fx-text-fill: red; -fx-font-weight: bold;");
+                String errorMessage = identifySudokuError(row, col, number);
+                showError("Número repetido", errorMessage);
+                textField.setText(oldValue);
+            }
+
+            // Actualizar el modelo con el número ingresado
+            if (isValid){
+                sudokuBoard.getBoard().get(row).set(col, number);
+            } else {
+                textField.setText(oldValue);
+            }
 
             // Verificar si el juego ha terminado
             if (isBoardComplete() && isBoardCorrect()) {
                 showAlert("¡Felicitaciones!", "¡Has completado el Sudoku correctamente!");
             }
         });
+    }
+
+    public boolean isValid(int row, int col, int candidate) {
+        // Check if the candidate is already in the row
+        for (int j = 0; j < SIZE; j++) {
+            if (j != col && sudokuBoard.getBoard().get(row).get(j) == candidate) {
+                return false;
+            }
+        }
+
+        // Check if the candidate is already in the column
+        for (int i = 0; i < SIZE; i++) {
+            if (i != row && sudokuBoard.getBoard().get(i).get(col) == candidate) {
+                return false;
+            }
+        }
+
+        // Check if the candidate is already in the 2x3 block
+        int startRow = (row / 2) * 2;
+        int startCol = (col / 3) * 3;
+
+        for (int i = startRow; i < startRow + 2; i++) {
+            for (int j = startCol; j < startCol + 3; j++) {
+                if (i != row && j != col && sudokuBoard.getBoard().get(i).get(j) == candidate) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+
     }
 
     /**
@@ -243,13 +303,15 @@ public class GameController {
         double cellHeight = sudokuPanel.getHeight() / SIZE;
         double fontSize = Math.min(cellWidth, cellHeight) * 0.5;
 
+        Font poppinsBold = Font.loadFont(getClass().getResourceAsStream("/fonts/Poppins-Bold.ttf"), 20);
+
         for (int row = 0; row < SIZE; row++) {
             for (int col = 0; col < SIZE; col++) {
                 TextField textField = cellFields[row][col];
                 textField.setPrefSize(cellWidth, cellHeight);
                 textField.setMinSize(cellWidth, cellHeight);
                 textField.setMaxSize(cellWidth, cellHeight);
-                textField.setFont(Font.font("Arial", FontWeight.BOLD, fontSize));
+                textField.setFont(poppinsBold);
             }
         }
     }
@@ -271,16 +333,21 @@ public class GameController {
 >>>>>>> origin/ajao
      */
     private void restoreDefaultStyle(TextField cell) {
-        String currentStyle = cell.getStyle();
-        // Eliminar solo el estilo de selección pero mantener otros estilos
-        cell.setStyle(currentStyle.replace("-fx-background-color: rgba(147, 0, 183, 0.15);", ""));
+        // Restaurar estilo predeterminado para celdas editables
+        String baseStyle = "-fx-background-color: transparent; " +
+                "-fx-text-fill: #9300B7; " +
+                "-fx-padding: 0; " +
+                "-fx-background-insets: 0; " +
+                "-fx-alignment: center;";
+
+        cell.setStyle(baseStyle);
     }
 
     private String identifySudokuError(int row, int col, int number) {
         // Check row
         for (int j = 0; j < SIZE; j++) {
             if (j != col && sudokuBoard.getBoard().get(row).get(j) == number) {
-                return "El número " + number + " ya existe en la misma fila";
+                return "El número " + number + " ya existe en la misma fila" + (row + 1);
             }
         }
 
@@ -303,7 +370,7 @@ public class GameController {
             }
         }
 
-        return "El número invalida las reglas del Sudoku";
+        return "El número no es válido";
     }
 
     private void showError(String title, String message) {
