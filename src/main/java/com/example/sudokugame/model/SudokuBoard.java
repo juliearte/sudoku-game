@@ -51,18 +51,39 @@ public class SudokuBoard {
             board.add(new ArrayList<>(row));
         }
 
-        // 4. Vaciar algunas celdas para el juego
-        int cellsToKeep = 12; // Ajustar para la dificultad deseada
-        int cellsToClear = SIZE * SIZE - cellsToKeep;
-
+        // 4. Vaciar celdas dejando solo 2 números por cada región 2x3
         Random random = new Random();
-        while (cellsToClear > 0) {
-            int row = random.nextInt(SIZE);
-            int col = random.nextInt(SIZE);
+        int numbersPerRegion = 2; // Números a mantener por región
 
-            if (board.get(row).get(col) != 0) {
-                board.get(row).set(col, 0);
-                cellsToClear--;
+        // Iterar sobre cada región 2x3
+        for (int regionRow = 0; regionRow < SIZE; regionRow += 2) {
+            for (int regionCol = 0; regionCol < SIZE; regionCol += 3) {
+                // Contador para los números que se mantendrán en esta región
+                int numbersKept = 0;
+
+                // Lista para almacenar las coordenadas de las celdas en esta región
+                List<int[]> cellsInRegion = new ArrayList<>();
+
+                // Recoger todas las celdas de esta región
+                for (int r = regionRow; r < regionRow + 2; r++) {
+                    for (int c = regionCol; c < regionCol + 3; c++) {
+                        cellsInRegion.add(new int[]{r, c});
+                    }
+                }
+
+                // Barajar las celdas para seleccionar aleatoriamente
+                Collections.shuffle(cellsInRegion, random);
+
+                // Poner a cero todas las celdas excepto 'numbersPerRegion' de ellas
+                for (int i = 0; i < cellsInRegion.size(); i++) {
+                    int[] cell = cellsInRegion.get(i);
+                    int row = cell[0];
+                    int col = cell[1];
+
+                    if (i >= numbersPerRegion) {
+                        board.get(row).set(col, 0);
+                    }
+                }
             }
         }
     }
