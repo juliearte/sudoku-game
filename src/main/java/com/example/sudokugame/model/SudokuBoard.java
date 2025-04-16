@@ -2,6 +2,11 @@ package com.example.sudokugame.model;
 
 import java.util.*;
 
+/**
+ *
+ * @author Isabela bermúdez and Julieta Arteta
+ *  @version 1.0
+ */
 public class SudokuBoard {
 
     private final int SIZE = 6;
@@ -20,39 +25,41 @@ public class SudokuBoard {
     private int attemptsLeft = 3; // Number of attempts left for the player
 
     /**
-     * SudokuBoard class constructor. calss {@code generateBoard()}
+     * SudokuBoard class constructor. calls {@code generateBoard()}
      */
     public SudokuBoard() {
         generateBoard(); // Genera el tablero de Sudoku
     }
 
     /**
-     * Generates the initial sudoku board
-     * Filles the board with zeros and then class the {@code fiillBlocks(0)} method to start
-     * filling the blocks with two random numbers.
-     * @see #fillBlocks(int)
+     * Generates the initial sudoku board and generates a single valid board solution
+     * This method initializes an empty solution, then generates a complete solution of the board using backtracking
+     * using the {@code generateCompleteSolution(0, 0)} method. Copies the generated solution to the board of the game
+     * and finally randomly empties some of its cells, leaving only 12 visible numbers.
+     *
+     * @see #generateCompleteSolution(int, int)
      */
     private void generateBoard() {
-        // 1. Inicializar solución vacía
+        // 1. Initializes empty solution
         solution = new ArrayList<>();
         for (int i = 0; i < SIZE; i++) {
             solution.add(new ArrayList<>(Collections.nCopies(SIZE, 0)));
         }
 
-        // 2. Generar solución completa
+        // 2. Generates complete solution
         if (!generateCompleteSolution(0, 0)) {
             System.out.println("Error al generar solución completa");
             return;
         }
 
-        // 3. Copiar solución al tablero de juego
+        // 3. Copy solution to the game board
         board = new ArrayList<>();
         for (List<Integer> row : solution) {
             board.add(new ArrayList<>(row));
         }
 
-        // 4. Vaciar algunas celdas para el juego
-        int cellsToKeep = 12; // Ajustar para la dificultad deseada
+        // 4. empty some cells for the game
+        int cellsToKeep = 12; // set for the desired difficulty
         int cellsToClear = SIZE * SIZE - cellsToKeep;
 
         Random random = new Random();
@@ -81,12 +88,13 @@ public class SudokuBoard {
      * valid in their respective cells, they are placed on the board and the method is
      * called recursively to fill the next block. If at any point valid numbers cannot
      * be placed, backtraking is applied.
+     *
      * @param blockIndex The index of the current block to be filled.
      * @return {@code true} if all blocks were filled successfully; {@code false} if not possible
      * @see #isValid(int, int, int)
      */
     private boolean fillBlocks(int blockIndex) {
-        if(blockIndex == TOTAL_BLOCKS) {
+        if (blockIndex == TOTAL_BLOCKS) {
             return true;
         }
 
@@ -98,10 +106,10 @@ public class SudokuBoard {
         //get the first two cells of the block
         List<int[]> firstTwoCells = new ArrayList<>();
         outerloop:
-        for(int i = startRow; i < startRow + block_rows; i++) {
-            for(int j = startCol; j < startCol + block_cols; j++) {
+        for (int i = startRow; i < startRow + block_rows; i++) {
+            for (int j = startCol; j < startCol + block_cols; j++) {
                 firstTwoCells.add(new int[]{i, j});
-                if(firstTwoCells.size() == 2){
+                if (firstTwoCells.size() == 2) {
                     break outerloop;
                 }
             }
@@ -109,13 +117,13 @@ public class SudokuBoard {
 
         //generates a list of numbers between a 1 and 6, randomly ordered
         List<Integer> numbers = new ArrayList<>();
-        for(int i = 1; i <= SIZE; i++) {
+        for (int i = 1; i <= SIZE; i++) {
             numbers.add(i);
         }
-        Collections.shuffle(numbers,random);
+        Collections.shuffle(numbers, random);
 
         //try putting a different number in each cell
-        for(int i = 0; i < numbers.size(); i++) {
+        for (int i = 0; i < numbers.size(); i++) {
             for (int j = i + 1; j < numbers.size(); j++) {
                 int num1 = numbers.get(i);
                 int num2 = numbers.get(j);
@@ -123,13 +131,13 @@ public class SudokuBoard {
                 int[] cell1 = firstTwoCells.get(0);
                 int[] cell2 = firstTwoCells.get(1);
 
-                if(isValid(cell1[0],cell1[1], num1) &&
+                if (isValid(cell1[0], cell1[1], num1) &&
                         isValid(cell2[0], cell2[1], num2)) {
 
                     board.get(cell1[0]).set(cell1[1], num1);
                     board.get(cell2[0]).set(cell2[1], num2);
 
-                    if (fillBlocks(blockIndex + 1)){
+                    if (fillBlocks(blockIndex + 1)) {
                         return true;
                     }
 
@@ -148,8 +156,8 @@ public class SudokuBoard {
      * A number is considered valid if it is not already present in the same row, the same column,
      * or within the 2x3 block that contains the cell.
      *
-     * @param row the row index of the cell
-     * @param col the column index of the cell
+     * @param row       the row index of the cell
+     * @param col       the column index of the cell
      * @param candidate the number to be placed in the cell
      * @return {@code true} if the number is valid in that position; {@code false} if it is already present
      * in the same row, column, or block.
@@ -160,9 +168,9 @@ public class SudokuBoard {
 
         // Check row
         System.out.print("Values in row " + row + ": ");
-        for(int j = 0; j < SIZE; j++) {
+        for (int j = 0; j < SIZE; j++) {
             System.out.print(board.get(row).get(j) + " ");
-            if(board.get(row).get(j) == candidate) {
+            if (board.get(row).get(j) == candidate) {
                 System.out.println("\nFound " + candidate + " in row at column " + j);
                 return false;
             }
@@ -171,9 +179,9 @@ public class SudokuBoard {
 
         // Check column
         System.out.print("Values in column " + col + ": ");
-        for(int i = 0; i < SIZE; i++) {
+        for (int i = 0; i < SIZE; i++) {
             System.out.print(board.get(i).get(col) + " ");
-            if(board.get(i).get(col) == candidate) {
+            if (board.get(i).get(col) == candidate) {
                 System.out.println("\nFound " + candidate + " in column at row " + i);
                 return false;
             }
@@ -199,10 +207,25 @@ public class SudokuBoard {
         return true;
     }
 
+    /**
+     * verifies if the number entered by the user is correct.
+     * It compares the candidate number provided with the corresponding value in the complete sudoku solution
+     * to determine if it matches.
+     *
+     * @param row       Cell row to be checked
+     * @param col       Column of the cell to be verified
+     * @param candidate Number entered by the user to ve verified
+     * @return {@code true} if the number matches the solution in that cell
+     * {@code false} otherwise.
+     */
     public boolean isCorrect(int row, int col, int candidate) {
         return solution.get(row).get(col) == candidate;
     }
 
+    /**
+     * Saves a copy ot the current state of the board and stacks it in {@code history} which is a stack structure
+     * that saves previous versions of the board.
+     */
     public void saveStateForUndo() {
         List<List<Integer>> snapshot = new ArrayList<>();
         for (List<Integer> row : board) {
@@ -211,6 +234,10 @@ public class SudokuBoard {
         history.push(snapshot);
     }
 
+    /**
+     * This method allows to undo the last move made by the player. It extracts the last state save in the {@code history}
+     * stack and copies them to the current game board. If there is no previous state saved, it does nothing
+     */
     public void undo() {
         if (!history.isEmpty()) {
             List<List<Integer>> previous = history.pop();
@@ -226,18 +253,36 @@ public class SudokuBoard {
         return board;
     }
 
+    /**
+     * returns the number of the player´s remaining attempts.
+     * @return the number of remaining attempts.
+     */
+
     public int getAttemptsLeft() {
         return attemptsLeft;
     }
 
+    /**
+     * Decreases the player´s remaining attempts by one
+     */
     public void decreaseAttempts() {
         attemptsLeft--;
     }
 
+    /**
+     * Check if the game is over
+     * the game is considered completed if the number of  remaining attempts is less than or equal to zero, or the
+     * board is completely full.
+     * @return {@code true} if the game is over, otherwise {@code false}
+     */
     public boolean isGameOver() {
         return attemptsLeft <= 0 || isBoardComplete();
     }
 
+    /**
+     * chech if all the cells of the board are full
+     * @return {@code true} if all cells are full, {@code false} if there is at least one empty cell
+     */
     private boolean isBoardComplete() {
         for (List<Integer> row : board) {
             for (int val : row) {
@@ -317,11 +362,20 @@ public class SudokuBoard {
         }
     }
 
+    /**
+     * Internal class representing a hint for a Sudoku board cell
+     */
     public static class Hint {
         public final int row;
         public final int col;
         public final int value;
 
+        /**
+         * Creates a new hint with its position (row,column) and the correct value.
+         * @param row the row of the suggested cell
+         * @param col the column of the suggested cell
+         * @param value the correct value of the cell
+         */
         public Hint(int row, int col, int value) {
             this.row = row;
             this.col = col;
@@ -329,6 +383,16 @@ public class SudokuBoard {
         }
     }
 
+    /**
+     * Checks if  a candidate number can be placed in a specific cell within the sudoku solution.
+     * A number is considered valid if it is not present in the same row, the same column,
+     *  or in the corresponding 2x3 block within the solution
+     *
+     * @param row  Cell row to be checked
+     * @param col  Column of the cell to be verified
+     * @param num the candidate number to place in that position
+     * @return {@code true} if the number is not in the same row, column or 2x3 block, {@code false} otherwise
+     */
     private boolean isValidInSolution(int row, int col, int num) {
         // Verificar fila
         for (int j = 0; j < SIZE; j++) {
@@ -359,6 +423,14 @@ public class SudokuBoard {
         return true;
     }
 
+    /**
+     * Generates a complete valid Sudoku solution using backtracking
+     * Tries number 1-6 in random order for each empty cell, ensuring no repetition in the row, column, or 2x3 block
+     * using {@code isValidInSolution}
+     * @param row current row index
+     * @param col current column index
+     * @return {@code true} if a complete solution is generated, {@code false} otherwise.
+     */
     private boolean generateCompleteSolution(int row, int col) {
         if (row == SIZE) {
             return true;  // Tablero completo
