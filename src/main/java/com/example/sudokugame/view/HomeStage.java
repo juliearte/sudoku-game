@@ -7,8 +7,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 /**
- * class the represents the main window of the sudoku game
- * @author
+ * class that represents the initial window of the sudoku game
+ * @author Isabela bermúdez and Julieta Arteta
  * @version 1.0
  */
 
