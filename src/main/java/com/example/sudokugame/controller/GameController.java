@@ -323,7 +323,7 @@ public class GameController {
     }
 
     /**
-     * Actualiza el tamaño de todas las celdas cuando cambia el tamaño del GridPane
+     * Dynamically adjusts the size of all cells on the board when the gridPane changes size.
      */
     private void updateCellSizes() {
         double cellWidth = sudokuPanel.getWidth() / SIZE;
@@ -343,11 +343,11 @@ public class GameController {
         }
     }
     /**
-     * Restaura el estilo predeterminado de una celda, manteniendo los estilos de bloque
->>>>>>> origin/ajao
+     * Restores the default style of a cell, keeping the block styles
+     * @param cell the cell to which the style is restored
      */
     private void restoreDefaultStyle(TextField cell) {
-        // Restaurar estilo predeterminado para celdas editables
+        // Restore default editable cell style
         String baseStyle = "-fx-background-color: transparent; " +
                 "-fx-text-fill: #9300B7; " +
                 "-fx-padding: 0; " +
@@ -357,6 +357,13 @@ public class GameController {
         cell.setStyle(baseStyle);
     }
 
+    /**
+     * Identifies the reason why a number input in a sudoku cell is invalid
+     * @param row cell row
+     * @param col cell column
+     * @param number Number to validate
+     * @return A message indicating the conflict encountered or that the number is invalid
+     */
     private String identifySudokuError(int row, int col, int number) {
         // Check row
         for (int j = 0; j < SIZE; j++) {
@@ -387,6 +394,11 @@ public class GameController {
         return "El número no es válido";
     }
 
+    /**
+     * Displays an error dialog box with a specified title and message
+     * @param title Title of the error window
+     * @param message Error message to be displayed to the user
+     */
     private void showError(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
@@ -394,6 +406,12 @@ public class GameController {
         alert.setContentText(message);
         alert.show();
     }
+
+    /**
+     * Displays an Alert dialog box with a specified title and message
+     * @param title Title of the alert window
+     * @param message Alert message to be displayed to the user
+     */
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -419,8 +437,8 @@ public class GameController {
     }
 
     /**
-     * check if the value of all the cells of the board are valid
-     * @return
+     * check if all the numbers on the board are correct according to sudoku rules
+     * @return {@code true} if the entire board iis valid, {@code false} otherwise
      */
     private boolean isBoardCorrect() {
         for (int i = 0; i < SIZE; i++) {
