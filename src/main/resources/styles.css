@@ -1,0 +1,7 @@
+.root {
+    -fx-background-image: url("background-sudoku.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
