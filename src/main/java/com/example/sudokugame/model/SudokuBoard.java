@@ -2,6 +2,14 @@ package com.example.sudokugame.model;
 
 import java.util.*;
 
+/**
+ * this class represent a 6x6 sudoku board with 6 blocks of two rows and three columns
+ * this class provides methods to generate a complete valid sudoku solution, generate a playabe board with some cells removed,
+ * and validate user input based on sudoku rules.
+ * @author Isabela bermúdez and Julieta Arteta
+ *  @version 1.0
+ */
+
 public class SudokuBoard {
 
     private final int SIZE = 6;
@@ -33,48 +41,48 @@ public class SudokuBoard {
      * @see #fillBlocks(int)
      */
     private void generateBoard() {
-        // 1. Inicializar solución vacía
+        // 1. Initializes empty solution
         solution = new ArrayList<>();
         for (int i = 0; i < SIZE; i++) {
             solution.add(new ArrayList<>(Collections.nCopies(SIZE, 0)));
         }
 
-        // 2. Generar solución completa
+        // 2. Generates complete solution
         if (!generateCompleteSolution(0, 0)) {
             System.out.println("Error al generar solución completa");
             return;
         }
 
-        // 3. Copiar solución al tablero de juego
+        // 3. Copy solution to the game board
         board = new ArrayList<>();
         for (List<Integer> row : solution) {
             board.add(new ArrayList<>(row));
         }
 
-        // 4. Vaciar celdas dejando solo 2 números por cada región 2x3
+        // 4. clears cell leaving only 2 numbers per 2x3  region
         Random random = new Random();
         int numbersPerRegion = 2; // Números a mantener por región
 
-        // Iterar sobre cada región 2x3
+        // Iterate over each 2x3 region
         for (int regionRow = 0; regionRow < SIZE; regionRow += 2) {
             for (int regionCol = 0; regionCol < SIZE; regionCol += 3) {
-                // Contador para los números que se mantendrán en esta región
+                // Counter for the numbers that will be kept in this region
                 int numbersKept = 0;
 
-                // Lista para almacenar las coordenadas de las celdas en esta región
+                // List to store the coordinates of the cells in this region
                 List<int[]> cellsInRegion = new ArrayList<>();
 
-                // Recoger todas las celdas de esta región
+                // collects all cells of this region
                 for (int r = regionRow; r < regionRow + 2; r++) {
                     for (int c = regionCol; c < regionCol + 3; c++) {
                         cellsInRegion.add(new int[]{r, c});
                     }
                 }
 
-                // Barajar las celdas para seleccionar aleatoriamente
+                // shuffle the cells to select randomly
                 Collections.shuffle(cellsInRegion, random);
 
-                // Poner a cero todas las celdas excepto 'numbersPerRegion' de ellas
+                // set all cells to zero except for "numbersPerRegion" of them
                 for (int i = 0; i < cellsInRegion.size(); i++) {
                     int[] cell = cellsInRegion.get(i);
                     int row = cell[0];
@@ -87,6 +95,12 @@ public class SudokuBoard {
             }
         }
     }
+
+    /**
+     * Copies the contents of the source board to the destination board.
+     * @param source The source board to copy from.
+     * @param destination The destination board to copy to.
+     */
 
     private void copyBoard(List<List<Integer>> source, List<List<Integer>> destination) {
         destination.clear();
@@ -220,9 +234,22 @@ public class SudokuBoard {
         return true;
     }
 
+    /**
+     * Checks if the candidate number is correct in the solution.
+     * @param row the row index of the cell
+     * @param col the column index of the cell
+     * @param candidate the number to be checked
+     * @return {@code true} if the candidate is correct; {@code false} otherwise
+     */
+
     public boolean isCorrect(int row, int col, int candidate) {
         return solution.get(row).get(col) == candidate;
     }
+
+    /**
+     * Saves the current state of the board to the history stack for undo functionality.
+     * This allows the player to revert to a previous state of the board.
+     */
 
     public void saveStateForUndo() {
         List<List<Integer>> snapshot = new ArrayList<>();
@@ -231,6 +258,11 @@ public class SudokuBoard {
         }
         history.push(snapshot);
     }
+
+    /**
+     * Undoes the last move by restoring the board to its previous state.
+     * This method pops the last saved state from the history stack and copies it back to the board.
+     */
 
     public void undo() {
         if (!history.isEmpty()) {
@@ -247,6 +279,11 @@ public class SudokuBoard {
         return board;
     }
 
+    /**
+     * Returns the solution of the Sudoku board.
+     * @return a list of lists of integers representing the solution.
+     */
+
     public int getAttemptsLeft() {
         return attemptsLeft;
     }
@@ -255,9 +292,20 @@ public class SudokuBoard {
         attemptsLeft--;
     }
 
+    /**
+     * Checks if the game is over, either because the player has run out of attempts
+     * or because the board is complete.
+     * @return {@code true} if the game is over; {@code false} otherwise
+     */
+
     public boolean isGameOver() {
         return attemptsLeft <= 0 || isBoardComplete();
     }
+
+    /**
+     * Checks if the Sudoku board is complete, meaning all cells are filled with numbers.
+     * @return {@code true} if the board is complete; {@code false} otherwise
+     */
 
     private boolean isBoardComplete() {
         for (List<Integer> row : board) {
@@ -325,10 +373,12 @@ public class SudokuBoard {
         return null;
     }
 
-
     /**
-     * Prints the generated board to the console.
+     * Prints the current state of the Sudoku board to the console.
+     * Each row is printed on a new line, with numbers separated by spaces.
+     * Useful for debugging or visualizing the board in the console.
      */
+
     public void printBoard() {
         for (List<Integer> row : board) {
             for (Integer num : row) {
@@ -338,10 +388,23 @@ public class SudokuBoard {
         }
     }
 
+    /**
+     * Represents a hint for a specific cell in the Sudoku board.
+     * Contains the row, column, and the correct value for that cell.
+     */
+
     public static class Hint {
         public final int row;
         public final int col;
         public final int value;
+
+        /**
+         * Constructs a new Hint object.
+         *
+         * @param row   the row index of the hint
+         * @param col   the column index of the hint
+         * @param value the correct value for the cell
+         */
 
         public Hint(int row, int col, int value) {
             this.row = row;
@@ -349,6 +412,17 @@ public class SudokuBoard {
             this.value = value;
         }
     }
+
+    /**
+     * Checks if the given number is valid in the solution for the specified position.
+     * This method verifies that the number does not already exist in the given row.
+     *
+     * @param row the row index to check
+     * @param col the column index (not used in this check)
+     * @param num the number to validate
+     * @return {@code true} if the number is not present in the specified row of the solution;
+     *         {@code false} otherwise
+     */
 
     private boolean isValidInSolution(int row, int col, int num) {
         // Verificar fila
@@ -358,14 +432,14 @@ public class SudokuBoard {
             }
         }
 
-        // Verificar columna
+        // Check column
         for (int i = 0; i < SIZE; i++) {
             if (solution.get(i).get(col) == num) {
                 return false;
             }
         }
 
-        // Verificar bloque 2x3
+        // Check 2x3 block
         int blockStartRow = (row / 2) * 2;
         int blockStartCol = (col / 3) * 3;
 
@@ -380,21 +454,31 @@ public class SudokuBoard {
         return true;
     }
 
+    /**
+     * Recursively generates a complete and valid Sudoku solution for the board.
+     * This method uses backtracking to fill the board with numbers from 1 to 6,
+     * ensuring that each number follows the game's rules.
+     *
+     * @param row the current row index
+     * @param col the current column index
+     * @return {@code true} if a complete valid solution is found; {@code false} otherwise
+     */
+
     private boolean generateCompleteSolution(int row, int col) {
         if (row == SIZE) {
-            return true;  // Tablero completo
+            return true;  // Board is complete
         }
 
         if (col == SIZE) {
             return generateCompleteSolution(row + 1, 0);
         }
 
-        // Si la celda ya está llena, pasar a la siguiente
+        // If the cell is already filled, move to the next one
         if (solution.get(row).get(col) != 0) {
             return generateCompleteSolution(row, col + 1);
         }
 
-        // Probar números del 1 al 6 en orden aleatorio
+        // Try numbers 1 through 6 in random order
         List<Integer> numbers = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6));
         Collections.shuffle(numbers);
 
@@ -406,7 +490,7 @@ public class SudokuBoard {
                     return true;
                 }
 
-                // Backtrack
+                // Backtrack if it leads to a dead end
                 solution.get(row).set(col, 0);
             }
         }

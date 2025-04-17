@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
@@ -19,12 +18,12 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="571.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sudokugame.controller.GameController">
     <children>
-        <ImageView fitHeight="571.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="livesImageView" fitHeight="571.0" fitWidth="800.0" layoutX="-7.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../../../sudo.png" />
             </image>
         </ImageView>
-        <VBox layoutX="595.0" layoutY="311.0" prefHeight="100.0" prefWidth="75.0">
+        <VBox layoutX="588.0" layoutY="375.0" prefHeight="100.0" prefWidth="75.0">
             <children>
                 <Button fx:id="helpButton" alignment="CENTER" mnemonicParsing="false" onAction="#handleHelp" prefHeight="72.0" prefWidth="75.0" style="-fx-background-color: transparent; -fx-background-radius: 25;   -fx-border-color: transparent; -fx-border-radius: 25; -fx-border-width: 2;">
                     <cursor>
@@ -51,14 +50,14 @@
               </Button>
             </children>
         </VBox>
-        <GridPane fx:id="sudokuPanel" alignment="CENTER" layoutX="153.0" layoutY="126.4" prefHeight="285.0" prefWidth="322.0" AnchorPane.bottomAnchor="160.0" AnchorPane.leftAnchor="153.0" AnchorPane.rightAnchor="325.0" AnchorPane.topAnchor="126.0">
+        <GridPane fx:id="sudokuPanel" alignment="CENTER" layoutX="153.0" layoutY="126.4" prefHeight="285.0" prefWidth="314.0" AnchorPane.bottomAnchor="160.0" AnchorPane.leftAnchor="153.0" AnchorPane.rightAnchor="333.0" AnchorPane.topAnchor="126.0">
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="52.0" prefWidth="52.8" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="52.0" prefWidth="52.8" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="52.0" prefWidth="52.8" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="52.0" prefWidth="52.8" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="57.59998779296876" minWidth="48.80001220703127" prefWidth="52.00002441406252" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="58.39998779296877" minWidth="48.00001220703126" prefWidth="55.19997558593752" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="49.20001220703125" minWidth="40.80003662109375" prefWidth="43.99998779296875" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="61.20001220703125" minWidth="52.0" prefWidth="55.20001220703125" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="61.600003051757795" minWidth="52.0" prefWidth="52.799963378906256" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="62.40003662109376" minWidth="52.0" prefWidth="52.80003662109374" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="63.19996337890626" minWidth="48.80001220703127" prefWidth="56.79997863769535" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="66.40001220703124" minWidth="48.00001220703126" prefWidth="54.40002136230464" />
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints maxHeight="55.19998779296875" minHeight="45.600006103515625" prefHeight="54.4" vgrow="SOMETIMES" />
@@ -69,7 +68,7 @@
                 <RowConstraints maxHeight="59.4000244140625" minHeight="32.0" prefHeight="44.39997558593751" vgrow="SOMETIMES" />
             </rowConstraints>
         </GridPane>
-      <Circle disable="true" fill="#534c4c87" layoutX="662.0" layoutY="322.0" mouseTransparent="true" radius="9.0" strokeType="INSIDE">
+      <Circle disable="true" fill="#534c4c87" layoutX="653.0" layoutY="385.0" mouseTransparent="true" radius="9.0" strokeType="INSIDE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -95,7 +94,7 @@
             </LinearGradient>
          </stroke>
       </Circle>
-        <Label fx:id="hintsLeftLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="652.0" layoutY="312.0" prefHeight="18.0" prefWidth="20.0" text="3" textAlignment="CENTER" textFill="#fffefe">
+        <Label fx:id="hintsLeftLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="643.0" layoutY="375.0" prefHeight="18.0" prefWidth="20.0" text="3" textAlignment="CENTER" textFill="#fffefe">
         <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -103,19 +102,40 @@
             <Font name="Comic Sans MS Bold" size="12.0" />
          </font>
       </Label>
-      <HBox layoutX="594.0" layoutY="197.0" prefHeight="35.0" prefWidth="76.0">
-         <children>
-            <ImageView fx:id="livesImage" fitHeight="35.0" fitWidth="77.0">
-               <image>
-                  <Image url="@../../../lives3.png" />
-               </image>
-            </ImageView>
-         </children>
-      </HBox>
-      <Label contentDisplay="CENTER" layoutX="615.0" layoutY="232.0" text="Vidas" textFill="#00000088">
+      <Label contentDisplay="CENTER" layoutX="606.0" layoutY="292.0" text="Vidas" textFill="#00000088">
          <font>
             <Font name="Comic Sans MS" size="14.0" />
          </font>
       </Label>
+      <ImageView fx:id="livesImageView" fitHeight="35.0" fitWidth="77.0" layoutX="587.0" layoutY="250.0">
+         <image>
+            <Image url="@../../../lives3.png" />
+         </image>
+      </ImageView>
+      <Label contentDisplay="CENTER" layoutX="594.0" layoutY="172.0" text="Recargar" textFill="#00000088">
+         <font>
+            <Font name="Comic Sans MS" size="14.0" />
+         </font>
+      </Label>
+      <Label contentDisplay="CENTER" layoutX="600.0" layoutY="189.0" text="tablero" textFill="#00000088">
+         <font>
+            <Font name="Comic Sans MS" size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnUndoGame" layoutX="593.0" layoutY="99.0" mnemonicParsing="false" onAction="#onHandleBUndo" prefHeight="49.0" prefWidth="48.0" style="-fx-background-color: transparent; -fx-background-radius: 25; -fx-border-color: transparent; -fx-border-radius: 25; -fx-border-width: 2;">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <graphic>
+            <ImageView fitHeight="46.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../2.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </ImageView>
+         </graphic>
+      </Button>
     </children>
 </AnchorPane>
