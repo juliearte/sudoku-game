@@ -148,10 +148,10 @@ public class GameController {
             for (int col = 0; col < SIZE; col++) {
                 TextField textField = new TextField();
 
-                // Configuración para centrado perfecto
+                // Center the content perfectly
                 textField.setAlignment(Pos.CENTER);
 
-                // Ajustar tamaño para que quepan perfectamente en las celdas del GridPane
+                // Adjust the size so it fits perfectly within the gridPane cells
                 double cellWidth = sudokuPanel.getWidth() / SIZE;
                 double cellHeight = sudokuPanel.getHeight() / SIZE;
 
@@ -159,12 +159,12 @@ public class GameController {
                 textField.setMinSize(cellWidth, cellHeight);
                 textField.setMaxSize(cellWidth, cellHeight);
 
-                // Fuente proporcional al tamaño de la celda (30% del ancho)
+                // set font size proportionally to cell size (30% of the width)
                 double fontSize = Math.min(cellWidth, cellHeight) * 0.5;
                 Font poppinsBold = Font.loadFont(getClass().getResourceAsStream("/fonts/Poppins-Bold.ttf"), fontSize);
                 textField.setFont(poppinsBold);
 
-                // Estilo sin bordes visibles para que se integre con el GridPane
+                // Style with no visible borders to blend with the griPane
                 String baseStyle = "-fx-background-color: transparent; " +
                         "-fx-text-fill: #9300B7; " +
                         "-fx-padding: 0; " +
@@ -172,7 +172,7 @@ public class GameController {
                         "-fx-alignment: center;";
                 textField.setStyle(baseStyle);
 
-                // Permitir que la celda sea seleccionable
+                // Allow to the cell to be selectable
                 textField.setFocusTraversable(true);
 
                 int number = sudokuBoard.getBoard().get(row).get(col);
@@ -184,14 +184,14 @@ public class GameController {
                     textField.setText("");
                 }
 
-                // Posicionar el TextField en el GridPane con márgenes uniformes
+                // Add the texfield to the gridPane with uniform margins
                 sudokuPanel.add(textField, col, row);
                 cellFields[row][col] = textField;
                 configureTextField(textField, row, col);
             }
         }
 
-        // Asegurarse de que los números estén centrados cuando se redimensiona el GridPane
+        // Ensure cells resize and stay centered when the gridPane is resized
         sudokuPanel.widthProperty().addListener((obs, oldVal, newVal) -> {
             updateCellSizes();
         });
