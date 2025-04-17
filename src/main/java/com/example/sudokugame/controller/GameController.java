@@ -56,6 +56,12 @@ public class GameController {
         helpButton.setTooltip(new Tooltip("Pistas restantes: " + hintsLeft));
     }
 
+    /**
+     * handles the help button action
+     * If hints are available, it applies a hint to the selected cell, if it is empty, or to the first empty cell it finds.Then, it updates the interface
+     * deducts a hint, and checks if the sudoku has been completed correctly.
+     */
+
     @FXML
     private void handleHelp() {
         // Check if there are attempts left
@@ -135,6 +141,7 @@ public class GameController {
      * its size, font, color, and alignment.
      * If the cell contains a number greater than zero, the number is shown and the
      * field is disabled to prevent editing. Otherwise, the field is left blank and enabled for user input.
+     * Also adds listeners to adapt cell sizes when the window is resized.
      */
     private void showBoard() {
         for (int row = 0; row < SIZE; row++) {
@@ -194,33 +201,42 @@ public class GameController {
         });
     }
 
+    /**
+     * Configures the events of a {@link TextField} in the Sudoku board to handle cell selection and user input
+     * On click, selects the cell and applies a visual style. When entering text, validates that the value is between
+     * 1 and 6, updates the board if valid, and applies and appropriate visual style
+     * it also displays error messages if the value is invalid and checks if the game has ended correctly.
+     * @param textField the cell to be configured
+     * @param row the row index of the cell
+     * @param col the column index of the cell
+     */
     private void configureTextField(TextField textField, int row, int col) {
-        // Configurar los eventos de clic para seleccionar la celda
+        // Configure click event to select the cell
         textField.setOnMouseClicked(event -> {
-            // Deseleccionar la celda anterior si existe
+            // Deselect previously selected cell, if any
             if (selectedCell != null) {
                 restoreDefaultStyle(selectedCell);
             }
 
-            // Seleccionar la celda actual
+            // Select the current cell
             selectedCell = textField;
 
-            // Aplicar estilo de selección
+            // Apply selection style
             String currentStyle = textField.getStyle();
             textField.setStyle(currentStyle + "-fx-background-color: rgba(147, 0, 183, 0.15);");
         });
 
-        // Configurar el evento de entrada de texto para validar y actualizar el tablero
+        // Configure text input event to validate and update the board
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.isEmpty()) {
-                // Si se borra el contenido, actualizar el modelo con un cero
+                // if content is cleared, update the model with zero
                 sudokuBoard.getBoard().get(row).set(col, 0);
                 return;
             }
 
-            // Validar que solo se ingresen dígitos del 1 al 6
+            // Validate that only digits 1 to 6 are allowed
             if (!newValue.matches("[1-6]")) {
-                textField.setText(oldValue); // Restaurar valor anterior
+                textField.setText(oldValue); // Restore previous value
                 return;
             }
 
@@ -230,7 +246,7 @@ public class GameController {
 
             boolean isValid = sudokuBoard.isValid(row, col, number);
 
-            // Actualizar de acuerdo a la validación
+            // Updated based on validation
 
             String baseStyle = "-fx-background-color: transparent; " +
                     "-fx-text-fill: #9300B7; " +
@@ -250,20 +266,31 @@ public class GameController {
                 textField.setText(oldValue);
             }
 
-            // Actualizar el modelo con el número ingresado
+            // Update the model with the entered number
             if (isValid){
                 sudokuBoard.getBoard().get(row).set(col, number);
             } else {
                 textField.setText(oldValue);
             }
 
-            // Verificar si el juego ha terminado
+            // check if the game is complete
             if (isBoardComplete() && isBoardCorrect()) {
                 showAlert("¡Felicitaciones!", "¡Has completado el Sudoku correctamente!");
             }
         });
     }
 
+    /**
+     * Checks whether a candidate number can be placed in a specific cell of the board.
+     * A number is considered valid if it is not already present in the same row, the same column,
+     * or within the 2x3 block that contains the cell.
+     *
+     * @param row       the row index of the cell
+     * @param col       the column index of the cell
+     * @param candidate the number to be placed in the cell
+     * @return {@code true} if the number is valid in that position; {@code false} if it is already present
+     * in the same row, column, or block.
+     */
     public boolean isValid(int row, int col, int candidate) {
         // Check if the candidate is already in the row
         for (int j = 0; j < SIZE; j++) {
@@ -315,19 +342,6 @@ public class GameController {
             }
         }
     }
-/*
-    /**
-     *
-<<<<<<< HEAD
-     * Sets up the keyboard event for the given {@link TextField}.
-     * Checks if the input is a number between 1 and 6. If valid, it calls {@code SudokuBoard#isValid(int, int, int)}
-     * to check Sudoku rules. If the number is valid, it saves it to the board and disables the {@link TextField}.
-     * If invalid, it changes the border color to red.
-     *
-     * @param textField The {@link TextField} representing a cell on the board.
-     * @param row       The row index of the cell.
-     * @param col       The column index of the cell.
-======= */
     /**
      * Restaura el estilo predeterminado de una celda, manteniendo los estilos de bloque
 >>>>>>> origin/ajao
@@ -389,7 +403,10 @@ public class GameController {
         alert.showAndWait();
     }
 
-    // Verificar si el tablero está completo (sin celdas vacías)
+    /**
+     * checkh if all the cells of the board are full
+     * @return {@code true} if all cells are full, {@code false} if there is at least one empty cell
+     */
     private boolean isBoardComplete() {
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
@@ -401,7 +418,10 @@ public class GameController {
         return true;
     }
 
-    // Verificar si todos los números en el tablero son correctos
+    /**
+     * check if the value of all the cells of the board are valid
+     * @return
+     */
     private boolean isBoardCorrect() {
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {

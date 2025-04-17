@@ -35,7 +35,7 @@ public class SudokuBoard {
      * Generates the initial sudoku board and generates a single valid board solution
      * This method initializes an empty solution, then generates a complete solution of the board using backtracking
      * using the {@code generateCompleteSolution(0, 0)} method. Copies the generated solution to the board of the game
-     * and finally randomly empties some of its cells, leaving only 12 visible numbers.
+     * and finally randomly empties some of its cells, leaving only 12 visible numbers, 2 numbers in each block.
      *
      * @see #generateCompleteSolution(int, int)
      */
