@@ -14,6 +14,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+/**
+ * Control class responsible to managing the sudoku game interface
+ * It connects the UI elements to the game Logic implement in the {@link SudokuBoard}
+ * @author Isabela bermúdez and Julieta Arteta
+ *  @version 1.0
+ */
 public class GameController {
 
     @FXML
@@ -422,7 +428,7 @@ public class GameController {
     }
 
     /**
-     * checkh if all the cells of the board are full
+     * check if all the cells of the board are full
      * @return {@code true} if all cells are full, {@code false} if there is at least one empty cell
      */
     private boolean isBoardComplete() {

@@ -3,7 +3,9 @@ package com.example.sudokugame.model;
 import java.util.*;
 
 /**
- *
+ * this class represent a 6x6 sudoku board with 6 blocks of two rows and three columns
+ * this class provides methods to generate a complete valid sudoku solution, generate a playabe board with some cells removed,
+ * and validate user input based on sudoku rules.
  * @author Isabela bermúdez and Julieta Arteta
  *  @version 1.0
  */
@@ -58,30 +60,30 @@ public class SudokuBoard {
             board.add(new ArrayList<>(row));
         }
         
-        // 4. Vaciar celdas dejando solo 2 números por cada región 2x3
+        // 4. clears cell leaving only 2 numbers per 2x3  region
         Random random = new Random();
-        int numbersPerRegion = 2; // Números a mantener por región
+        int numbersPerRegion = 2; // Numbers to keep per region
 
-        // Iterar sobre cada región 2x3
+        // Iterate over each 2x3 region
         for (int regionRow = 0; regionRow < SIZE; regionRow += 2) {
             for (int regionCol = 0; regionCol < SIZE; regionCol += 3) {
-                // Contador para los números que se mantendrán en esta región
+                // Counter for the numbers that will be kept in this region
                 int numbersKept = 0;
 
-                // Lista para almacenar las coordenadas de las celdas en esta región
+                // List to store the coordinates of the cells in this region
                 List<int[]> cellsInRegion = new ArrayList<>();
 
-                // Recoger todas las celdas de esta región
+                // collects all cells of this region
                 for (int r = regionRow; r < regionRow + 2; r++) {
                     for (int c = regionCol; c < regionCol + 3; c++) {
                         cellsInRegion.add(new int[]{r, c});
                     }
                 }
 
-                // Barajar las celdas para seleccionar aleatoriamente
+                // shuffle the cells to select randomly
                 Collections.shuffle(cellsInRegion, random);
 
-                // Poner a cero todas las celdas excepto 'numbersPerRegion' de ellas
+                // set all cells to zero except for "numbersPerRegion" of them
                 for (int i = 0; i < cellsInRegion.size(); i++) {
                     int[] cell = cellsInRegion.get(i);
                     int row = cell[0];
@@ -415,21 +417,21 @@ public class SudokuBoard {
      * @return {@code true} if the number is not in the same row, column or 2x3 block, {@code false} otherwise
      */
     private boolean isValidInSolution(int row, int col, int num) {
-        // Verificar fila
+        // check row
         for (int j = 0; j < SIZE; j++) {
             if (solution.get(row).get(j) == num) {
                 return false;
             }
         }
 
-        // Verificar columna
+        // check column
         for (int i = 0; i < SIZE; i++) {
             if (solution.get(i).get(col) == num) {
                 return false;
             }
         }
 
-        // Verificar bloque 2x3
+        // check block 2x3
         int blockStartRow = (row / 2) * 2;
         int blockStartCol = (col / 3) * 3;
 
@@ -454,19 +456,19 @@ public class SudokuBoard {
      */
     private boolean generateCompleteSolution(int row, int col) {
         if (row == SIZE) {
-            return true;  // Tablero completo
+            return true;  // full board
         }
 
         if (col == SIZE) {
             return generateCompleteSolution(row + 1, 0);
         }
 
-        // Si la celda ya está llena, pasar a la siguiente
+        // if the cell is already full, move to the next one
         if (solution.get(row).get(col) != 0) {
             return generateCompleteSolution(row, col + 1);
         }
 
-        // Probar números del 1 al 6 en orden aleatorio
+        // test numbers 1 to 6 in random order
         List<Integer> numbers = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6));
         Collections.shuffle(numbers);
 
